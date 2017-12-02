@@ -153,43 +153,138 @@ class App extends React.Component {
 
 
 class Order extends React.Component {
+
+
+  constructor(props){
+    super(props);
+    this.state = {
+      emailAddress: '',
+      contactNumber: '',
+      name: '',
+      weChatID: '',
+      message: '',
+      checkbox:'', 
+      orders: []
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    console.log(target.value);
+    console.log(target.checked);
+    console.log(name);
+    this.setState({ 
+      [name]: value
+    });
+  }
+
+  handleSubmit(event){
+    fetch('localhost:4000/api/order').then(function(data){
+      console.log(data);
+      return data.json();
+    }).then(json => {
+      this.setState({
+          result: json
+      });
+    });
+    console.log(this.state);
+    event.preventDefault();
+  }
+
   render() {
-   
+   var orders = this.state.orders;
+   orders = orders.map(function(order, index){
+      return(
+        <li key={index}>
+          <span className={order.available}></span>
+          <span className={order.available}>{order.name}</span>
+          <span className={order.available}>order.email</span>
+        </li>
+      )
+   });
     return (
-      <div>
-        <form>
+      <div id="order-container">
+        <form onSubmit={this.handleSubmit.bind(this)}>
             <div className="form-group">
-                <label for="emailAddress">Email address</label>
-                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
+                <label htmlFor="emailAddress">Email address</label>
+                <input 
+                type="text" 
+                className="form-control" 
+                name="emailAddress" 
+                id="exampleInputEmail1" 
+                aria-describedby="emailHelp" 
+                placeholder="Enter email"
+                value={this.state.emailAddress}
+                onChange={this.handleChange.bind(this)} 
+                />
                 <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
-                <label for="contactNumber">Contact Number</label>
-                <input type="email" className="form-control" id="contactNumber" aria-describedby="emailHelp" placeholder="Enter number"/>
+                <label htmlFor="contactNumber">Contact Number</label>
+                <input 
+                type="text" 
+                className="form-control"
+                name="contactNumber" 
+                id="contactNumber" 
+                aria-describedby="emailHelp" 
+                placeholder="Enter number"
+                value={this.state.contactNumber} 
+                onChange={this.handleChange.bind(this)} />
                 <small id="ContactHelp" className="form-text text-muted">We'll never share your contact number with anyone else.</small>
             </div>
             <div className="form-group">
-                <label for="name">Name</label>
-                <input type="email" className="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter name"/>
+                <label htmlFor="name">Name</label>
+                <input 
+                type="text" 
+                className="form-control" 
+                name="name" id="name" 
+                aria-describedby="emailHelp" 
+                placeholder="Enter name" 
+                value={this.state.name} 
+                onChange={this.handleChange.bind(this)}/>
                 <small id="NameHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
-                <label for="weChatID">WeChat ID</label>
-                <input type="email" className="form-control" id="weChatID" aria-describedby="emailHelp" placeholder="Enter wechat ID"/>
+                <label htmlFor="weChatID">WeChat ID</label>
+                <input 
+                type="text" 
+                className="form-control" 
+                name="weChatID" 
+                id="weChatID" 
+                aria-describedby="emailHelp" 
+                placeholder="Enter wechat ID" 
+                value={this.state.weChatID} 
+                onChange={this.handleChange.bind(this)}/>
                 <small id="eWeChatHelp" className="form-text text-muted">We'll add your WeChat for more information.</small>
             </div>
             <div className="form-group">
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea 
+                className="form-control" 
+                name="message" 
+                id="exampleFormControlTextarea1" 
+                rows="3"
+                value={this.state.message} 
+                onChange={this.handleChange.bind(this)}>
+                </textarea>
                 <small id="emailHelp" className="form-text text-muted">We'll add your WeChat for more information.</small>
             </div>
-            
             <div className="form-check">
                 <label className="form-check-label">
-                    <input type="checkbox" className="form-check-input"/> Comfirm
+                    <input 
+                    type="checkbox" 
+                    name="checkbox" 
+                    className="form-check-input"
+                    value={this.state.checkbox} 
+                    onChange={this.handleChange.bind(this)}/> Comfirm
                 </label>
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
         </form>
+        <ul>{orders}</ul>
       </div>
     );
   }
