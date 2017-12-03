@@ -17,12 +17,35 @@ const OrderSchema = new Schema({
 	name:{
 		type: String,
 		required: [true, 'Name field is required']
-	}, 
-	email:{
+	},
+	contactNumber:{
 		type: String,
-		required: [true, 'Email field is required']
+		required: [true, 'Contact number field is required']
+	},
+	emailAddress:{
+		type: String,
+		required: [true, 'Email address field is required']
+	},
+	weChatID:{
+		type: String
+	},
+	message:{
+		type: String,
+		required: [true, 'Message field is required']
+	},
+	orderDate:{
+		type: Date,
+		required: [true, 'orderDate field is required']
 	}, 
-	available:{
+	pickupDate:{
+		type: String,
+		required: [true, 'pickupDate field is required']
+	}, 
+	pickupTime:{
+		type: String,
+		required: [true, 'pickupTime field is required']
+	}, 
+	comfirm:{
 		type: Boolean, 
 		default: false
 	}

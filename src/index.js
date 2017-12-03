@@ -163,7 +163,10 @@ class Order extends React.Component {
       name: '',
       weChatID: '',
       message: '',
-      checkbox:'', 
+      comfirm:'', 
+      pickupDate:'', 
+      pickupTime: '',
+      validationFlag: true,
       orders: []
     };
     this.handleChange = this.handleChange.bind(this);
@@ -174,40 +177,83 @@ class Order extends React.Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    console.log(target.value);
-    console.log(target.checked);
-    console.log(name);
     this.setState({ 
       [name]: value
     });
   }
 
   handleSubmit(event){
-    fetch('localhost:4000/api/order').then(function(data){
-      console.log(data);
-      return data.json();
-    }).then(json => {
-      this.setState({
-          result: json
-      });
+    event.preventDefault();
+    
+    const currentOrder = this.state;
+    let isFormValidate = true;
+    
+    for(var key in currentOrder){
+      if(key === 'weChatID'){
+        continue;
+      }
+
+      if(currentOrder[key] === null || currentOrder[key] === undefined || currentOrder[key] === ''){
+        isFormValidate = false;
+      }
+    }
+
+    this.setState({
+      validationFlag: isFormValidate
     });
-    console.log(this.state);
+
+    if(isFormValidate){
+      fetch("/api/order", {
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify(this.state)
+      }).then(data =>{
+        return data.json();
+      }).then(response =>{
+      });
+
+
+      fetch('/api/order').then(function(data){
+        return data.json();
+      }).then(json => {
+        this.setState({
+            orders: json
+        });
+      });
+    }
+
     event.preventDefault();
   }
+
 
   render() {
    var orders = this.state.orders;
    orders = orders.map(function(order, index){
       return(
         <li key={index}>
-          <span className={order.available}></span>
-          <span className={order.available}>{order.name}</span>
-          <span className={order.available}>order.email</span>
+          <div>
+              <div >name: {order.name}</div>
+               <div >contact number: {order.contactNumber}</div>
+               <div >message: {order.message}</div>
+               <div >email address: {order.emailAddress}</div>
+               <div >weChatID: {order.weChatID}</div>
+               <div >pickupDate: {order.pickupDate}</div>
+               <div >pickupTime: {order.pickupTime}</div>
+               <div >orderDate: {order.orderDate}</div>
+          </div>
+         
         </li>
       )
    });
+
+    var formStyle = {
+      margin: '50px',
+    }
     return (
-      <div id="order-container">
+      <div id="order-container" style={formStyle}>
         <form onSubmit={this.handleSubmit.bind(this)}>
             <div className="form-group">
                 <label htmlFor="emailAddress">Email address</label>
@@ -221,7 +267,7 @@ class Order extends React.Component {
                 value={this.state.emailAddress}
                 onChange={this.handleChange.bind(this)} 
                 />
-                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                <small className="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="contactNumber">Contact Number</label>
@@ -234,7 +280,7 @@ class Order extends React.Component {
                 placeholder="Enter number"
                 value={this.state.contactNumber} 
                 onChange={this.handleChange.bind(this)} />
-                <small id="ContactHelp" className="form-text text-muted">We'll never share your contact number with anyone else.</small>
+                <small className="form-text text-muted">We'll never share your contact number with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -246,7 +292,7 @@ class Order extends React.Component {
                 placeholder="Enter name" 
                 value={this.state.name} 
                 onChange={this.handleChange.bind(this)}/>
-                <small id="NameHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                <small className="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="weChatID">WeChat ID</label>
@@ -259,9 +305,36 @@ class Order extends React.Component {
                 placeholder="Enter wechat ID" 
                 value={this.state.weChatID} 
                 onChange={this.handleChange.bind(this)}/>
-                <small id="eWeChatHelp" className="form-text text-muted">We'll add your WeChat for more information.</small>
+                <small className="form-text text-muted">We'll add your WeChat for more information.</small>
             </div>
             <div className="form-group">
+                <label htmlFor="pickupDate">Pick up date</label>
+                <input 
+                type="date" 
+                className="form-control" 
+                name="pickupDate" 
+                id="pickupDate" 
+                aria-describedby="emailHelp" 
+                placeholder="Pickup Date" 
+                value={this.state.pickupDate} 
+                onChange={this.handleChange.bind(this)}/>
+                <small className="form-text text-muted">We'll add your WeChat for more information.</small>
+            </div>
+            <div className="form-group">
+                <label htmlFor="pickupTime">Pick up time</label>
+                <input 
+                type="time" 
+                className="form-control" 
+                name="pickupTime" 
+                id="pickupTime" 
+                aria-describedby="emailHelp" 
+                placeholder="Pickup Time" 
+                value={this.state.pickupTime} 
+                onChange={this.handleChange.bind(this)}/>
+                <small className="form-text text-muted">We'll add your WeChat for more information.</small>
+            </div>
+            <div className="form-group">
+                <label htmlFor="message">Message</label>
                 <textarea 
                 className="form-control" 
                 name="message" 
@@ -270,20 +343,21 @@ class Order extends React.Component {
                 value={this.state.message} 
                 onChange={this.handleChange.bind(this)}>
                 </textarea>
-                <small id="emailHelp" className="form-text text-muted">We'll add your WeChat for more information.</small>
+                <small className="form-text text-muted"></small>
             </div>
             <div className="form-check">
                 <label className="form-check-label">
                     <input 
                     type="checkbox" 
-                    name="checkbox" 
+                    name="comfirm" 
                     className="form-check-input"
-                    value={this.state.checkbox} 
-                    onChange={this.handleChange.bind(this)}/> Comfirm
+                    value={this.state.comfirm} 
+                    onChange={this.handleChange.bind(this)}/> Please click here to comfirm your cake order
                 </label>
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button disabled={!this.state.comfirm} type="submit" className="btn btn-primary">Submit</button>
         </form>
+        { !this.state.validationFlag ? <InvalidateMessage /> : null }
         <ul>{orders}</ul>
       </div>
     );
@@ -291,6 +365,16 @@ class Order extends React.Component {
 }
 
 
+function InvalidateMessage() {
+  var divStyle = {
+    color: 'red',
+  };
+  return (
+    <div>
+        <span style={divStyle}>All input fields are required except webCahtID</span>
+    </div>
+  );
+}
 
 // Header Component
 class Header extends React.Component {
@@ -369,7 +453,7 @@ class Footer extends React.Component {
           </div>
           <div className="footer-copyright">
               <div className="container-fluid">
-                  © 2016 Copyright: <a href="https://www.MDBootstrap.com"> MDBootstrap.com </a>
+                 
               </div>
           </div>
       </footer>

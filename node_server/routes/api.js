@@ -21,6 +21,11 @@ Order.geoNear(
 
 //add a new order to db
 router.post('/order', function (req, res, next) {
+	console.log(req.body);
+	//add current date
+	const date = new Date();
+	console.log(date);
+	req.body['orderDate'] = date;
 	Order.create(req.body).then(function(order){
 		res.send(order);
 	}).catch(next);
