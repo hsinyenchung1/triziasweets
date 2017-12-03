@@ -171,6 +171,18 @@ class Order extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event){
+      fetch('/api/order').then(function(data){
+        return data.json();
+      }).then(json => {
+        console.log(json);
+        this.setState({
+            orders: json
+        });
+      });
   }
 
   handleChange(event) {
@@ -183,7 +195,6 @@ class Order extends React.Component {
   }
 
   handleSubmit(event){
-    event.preventDefault();
     
     const currentOrder = this.state;
     let isFormValidate = true;
@@ -213,15 +224,7 @@ class Order extends React.Component {
       }).then(data =>{
         return data.json();
       }).then(response =>{
-      });
-
-
-      fetch('/api/order').then(function(data){
-        return data.json();
-      }).then(json => {
-        this.setState({
-            orders: json
-        });
+        console.log(response);
       });
     }
 
@@ -358,6 +361,7 @@ class Order extends React.Component {
             <button disabled={!this.state.comfirm} type="submit" className="btn btn-primary">Submit</button>
         </form>
         { !this.state.validationFlag ? <InvalidateMessage /> : null }
+        <button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this)}>Orders</button>
         <ul>{orders}</ul>
       </div>
     );
