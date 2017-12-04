@@ -46,5 +46,5 @@ app.use(function(err,req, res, next){
 
 //list for requests
 app.listen(PORT, function(){
-	console.log('now listening for requests');
+	console.log('now listening for requests at ' + PORT);
 });
