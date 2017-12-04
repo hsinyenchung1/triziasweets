@@ -103,7 +103,7 @@ function handleEmail(req, res) {
     					 '\n\n\n\nThanks,\nTriziasweets';
     			var mailOptions = {
 			    from: 'triziasweets@gmail.com', // sender address
-			    to: [req.body.emailAddress, 'triziasweets@gmail.com'], // list of receivers
+			    to: [req.body.emailAddress, 'triziasweets@gmail.com', 'trizia900203@gmail.com'], // list of receivers
 			    subject: 'Triziasweets: Thank you for ordering', // Subject line
 			    text: text //, // plaintext body
 			    // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
