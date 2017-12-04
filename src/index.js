@@ -135,7 +135,7 @@ class Order extends React.Component {
                 value={this.state.emailAddress}
                 onChange={this.handleChange.bind(this)} 
                 />
-                <small className="form-text text-muted">We'll never share your email with anyone else.</small>
+                <small className="form-text text-muted">Required field. We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="contactNumber">Contact Number</label>
@@ -148,7 +148,7 @@ class Order extends React.Component {
                 placeholder="Enter number"
                 value={this.state.contactNumber} 
                 onChange={this.handleChange.bind(this)} />
-                <small className="form-text text-muted">We'll never share your contact number with anyone else.</small>
+                <small className="form-text text-muted">Required field. We'll never share your contact number with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -160,7 +160,7 @@ class Order extends React.Component {
                 placeholder="Enter name" 
                 value={this.state.name} 
                 onChange={this.handleChange.bind(this)}/>
-                <small className="form-text text-muted">We'll never share your email with anyone else.</small>
+                <small className="form-text text-muted">Required field. We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="weChatID">WeChat ID</label>
@@ -186,7 +186,7 @@ class Order extends React.Component {
                 placeholder="Pickup Date" 
                 value={this.state.pickupDate} 
                 onChange={this.handleChange.bind(this)}/>
-                <small className="form-text text-muted">We'll add your WeChat for more information.</small>
+                <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="pickupTime">Pick up time</label>
@@ -199,7 +199,7 @@ class Order extends React.Component {
                 placeholder="Pickup Time" 
                 value={this.state.pickupTime} 
                 onChange={this.handleChange.bind(this)}/>
-                <small className="form-text text-muted">We'll add your WeChat for more information.</small>
+                <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="message">Message</label>
@@ -211,7 +211,7 @@ class Order extends React.Component {
                 value={this.state.message} 
                 onChange={this.handleChange.bind(this)}>
                 </textarea>
-                <small className="form-text text-muted"></small>
+                <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-check">
                 <label className="form-check-label">
@@ -225,8 +225,10 @@ class Order extends React.Component {
             </div>
             <button disabled={!this.state.comfirm} type="submit" className="btn btn-primary">Submit</button>
         </form>
+        { !this.state.validationFlag ? <InvalidateMessage /> : null }
         {/*<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this)}>Orders</button>
         <ul>{orders}</ul>*/}
+        <Menu />
       </div>
     );
   }
@@ -242,6 +244,15 @@ function InvalidateMessage() {
   return (
     <div style={divStyle}>
         <span>All input fields are required except webCahtID</span>
+    </div>
+  );
+}
+
+function Menu() {
+  return (
+    <div >
+        <div className="menu-english-img"></div>
+        <div className="menu-chinese-img"></div>
     </div>
   );
 }
