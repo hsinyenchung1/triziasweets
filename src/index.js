@@ -173,7 +173,7 @@ class Order extends React.Component {
                 placeholder="Enter name" 
                 value={this.state.name} 
                 onChange={this.handleChange.bind(this)}/>
-                <small className="form-text text-muted">Required field. We'll never share your email with anyone else.</small>
+                <small className="form-text text-muted">Required field. We'll never share your name with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="weChatID">WeChat ID</label>
