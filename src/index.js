@@ -31,6 +31,7 @@ class Order extends React.Component {
       pickupDate:'', 
       pickupTime: '',
       validationFlag: true,
+      submitedFlag: false,
       orders: []
     };
     this.handleChange = this.handleChange.bind(this);
@@ -88,6 +89,18 @@ class Order extends React.Component {
       }).then(data =>{
         return data.json();
       }).then(response =>{
+        this.setState({ 
+          emailAddress: '',
+          contactNumber: '',
+          name: '',
+          weChatID: '',
+          message: '',
+          comfirm: false, 
+          pickupDate:'', 
+          pickupTime: '',
+          validationFlag: true,
+          submitedFlag: true
+        });
         console.log(response);
       });
     }
@@ -226,6 +239,7 @@ class Order extends React.Component {
             <button disabled={!this.state.comfirm} type="submit" className="btn btn-primary">Submit</button>
         </form>
         { !this.state.validationFlag ? <InvalidateMessage /> : null }
+        { this.state.submitedFlag ? <SubmitedMessage />: null}
         {/*<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this)}>Orders</button>
         <ul>{orders}</ul>*/}
         <Menu />
@@ -234,6 +248,18 @@ class Order extends React.Component {
   }
 }
 
+function SubmitedMessage() {
+  var divStyle = {
+    color: 'green',
+    margin: '20px',
+    'font-size': '18px'
+  };
+  return (
+    <div style={divStyle}>
+        <span>Your oder is submited</span>
+    </div>
+  );
+}
 
 function InvalidateMessage() {
   var divStyle = {
