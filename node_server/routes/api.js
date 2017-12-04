@@ -1,14 +1,25 @@
 const express = require('express');
 const router = express.Router();
+const axios = require('axios');
+var nodemailer = require('nodemailer');
+
 //import mongo model
 const Order = require('../models/order');
 
 //get a list of order from db
 router.get('/order', function (req, res, next) {
-	console.log('order information');
+	console.log('+++++++++++++++++++++++++Get All Orders++++++++++++++++++++++++++++++');
+	axios.post('http://localhost:5000/api/sayHello', {})
+        .then(function(response) {
+            console.log(response);
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 	Order.find({}).then(function(order){
 		res.send(order);
 	});
+
 });
 
 /*
@@ -21,16 +32,25 @@ Order.geoNear(
 */
 
 //add a new order to db
-router.post('/order', function (req, res, next) {
-	console.log(req.body);
-	//add current date
-	const date = new Date();
-	console.log(date);
-	req.body['orderDate'] = date;
-	Order.create(req.body).then(function(order){
-		res.send(order);
-	}).catch(next);
-	
+router.post('/order', function(req, res, next) {
+	console.log('+++++++++++++++++++++++++POST An Order++++++++++++++++++++++++++++++');
+    console.log(req.body);
+    //add current date
+    const date = new Date();
+    console.log(date);
+    req.body['orderDate'] = date;
+    Order.create(req.body).then(function(order) {
+    	req.body['emailType'] = 'mailCustomer';
+    	axios.post('http://localhost:5000/api/sendEmail', req.body)
+        .then(function(response) {
+            console.log(response);
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+        res.send(order);
+    }).catch(next);
+
 });
 
 //update an order in db
@@ -50,13 +70,11 @@ router.delete('/order/:id', function (req, res, next) {
 });
 
 
+router.post('/sendEmail', handleEmail); // handle the route at yourdomain.com/sayHello
 
-var nodemailer = require('nodemailer');
+function handleEmail(req, res) {
 
-router.post('/sayHello', handleSayHello); // handle the route at yourdomain.com/sayHello
-
-function handleSayHello(req, res) {
-    // Not the movie transporter!
+    console.log('+++++++++++++++++++++++++POST sendEmail++++++++++++++++++++++++++++++');
     var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -68,16 +86,49 @@ function handleSayHello(req, res) {
     	host: 'smtp.gmail.com'
     });
 
-    var text = 'Hello world from \n\n' + req.body.name;
-
-    var mailOptions = {
-	    from: 'triziasweets@gmail.com', // sender address
-	    to: 'steven332211@yopmail.com', // list of receivers
-	    subject: 'Triziasweets order#', // Subject line
-	    text: text //, // plaintext body
-	    // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
-	};
-
+    console.log(req.body);
+    switch(req.body.emailType){
+    	case 'mailCustomer':
+    		var text = 'Hi, ' + req.body.name +  
+    					'\n\n\nYour order is placed' +
+    					 '\n\n\n' + '====Order Details=====' +
+    					 '\n\n\n' + 'Name: ' + req.body.name + 
+    					 '\n\n\n' + 'Contact number: ' + req.body.contactNumber + 
+    					 '\n\n\n' + 'Email address: ' + req.body.emailAddress + 
+    					 '\n\n\n' + 'WeChat ID:  ' + req.body.weChatID + 
+    					 '\n\n\n' + 'Message: ' + req.body.message +
+    					 '\n\n\n' + 'Order date: ' + req.body.orderDate +
+    					 '\n\n\n' + 'Pickup date: ' + req.body.pickupDate + 
+    					 '\n\n\n' + 'Pickup time: ' + req.body.pickupTime +
+    					 '\n\n\n\nThanks,\nTriziasweets';
+    			var mailOptions = {
+			    from: 'triziasweets@gmail.com', // sender address
+			    to: [req.body.emailAddress, 'triziasweets@gmail.com'], // list of receivers
+			    subject: 'Triziasweets: Thank you for ordering', // Subject line
+			    text: text //, // plaintext body
+			    // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+			};
+    	break;
+    	case 'mailTrizasweets':
+    		var text = 'Your order number is' + req.body.name + '\n\n\n\nTriziasweets';
+    		var mailOptions = {
+			    from: 'triziasweets@gmail.com', // sender address
+			    to: req.body.emailAddress, // list of receivers
+			    subject: 'Triziasweets: Thank you for ordering', // Subject line
+			    text: text //, // plaintext body
+			    // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+			};
+    	break;
+    	default:
+    		 var mailOptions = {
+			    from: 'triziasweets@gmail.com', // sender address
+			    to: 'steven332211@yopmail.com', // list of receivers
+			    subject: 'Triziasweets order#', // Subject line
+			    text: text //, // plaintext body
+			    // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+			};
+    }
+   
 	transporter.sendMail(mailOptions, function(error, info){
 	    if(error){
 	        console.log(error);

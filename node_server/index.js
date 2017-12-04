@@ -30,7 +30,8 @@ if(dev){
 }
 
 //connect to mongodb
-var uri = 'mongodb://triziasweets:triziasweets@ds023603.mlab.com:23603/triziasweets';
+var uri = 'mongodb://triziasweets:triziasweets@ds129796.mlab.com:29796/productiondb';
+
 mongoose.Promise = global.Promise
 mongoose.connect(uri, {useMongoClient: true });
 var db = mongoose.connection;
