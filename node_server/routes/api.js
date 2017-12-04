@@ -9,7 +9,7 @@ const Order = require('../models/order');
 //get a list of order from db
 router.get('/order', function (req, res, next) {
 	console.log('+++++++++++++++++++++++++Get All Orders++++++++++++++++++++++++++++++');
-	axios.post('http://localhost:5000/api/sayHello', {})
+	axios.post('http://localhost:5000/api/sayHello', req.body)
         .then(function(response) {
             console.log(response);
         })
