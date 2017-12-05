@@ -129,15 +129,22 @@ class Order extends React.Component {
       )
    });
 
+    var submitButton = {
+      width: '100%',
+      'margin-bottom': '20px',
+    }
+
     var formStyle = {
       margin: '50px',
     }
+
     return (
       <div id="order-container" style={formStyle}>
         { !this.state.validationFlag ? <InvalidateMessage /> : null }
         <form onSubmit={this.handleSubmit.bind(this)}>
             <div className="form-group">
-                <label htmlFor="emailAddress">Email address</label>
+                <label htmlFor="emailAddress">Email address - 电子邮箱
+                </label>
                 <input 
                 type="text" 
                 className="form-control" 
@@ -151,7 +158,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field. We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="contactNumber">Contact Number</label>
+                <label htmlFor="contactNumber">Contact Number - 联系电话</label>
                 <input 
                 type="text" 
                 className="form-control"
@@ -164,7 +171,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field. We'll never share your contact number with anyone else.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">Name - 姓名</label>
                 <input 
                 type="text" 
                 className="form-control" 
@@ -176,7 +183,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field. We'll never share your name with anyone else.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="weChatID">WeChat ID</label>
+                <label htmlFor="weChatID">WeChat ID - 微信</label>
                 <input 
                 type="text" 
                 className="form-control" 
@@ -189,7 +196,8 @@ class Order extends React.Component {
                 <small className="form-text text-muted">We'll add your WeChat for more information.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="pickupDate">Pick up date</label>
+                <label htmlFor="pickupDate">Pick up date - 取货日期
+                </label>
                 <input 
                 type="date" 
                 className="form-control" 
@@ -202,7 +210,8 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="pickupTime">Pick up time</label>
+                <label htmlFor="pickupTime">Pick up time - 取货时间
+                </label>
                 <input 
                 type="time" 
                 className="form-control" 
@@ -215,7 +224,8 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="message">Message</label>
+                <label htmlFor="message">Message - 信息
+                </label>
                 <textarea 
                 className="form-control" 
                 name="message" 
@@ -233,10 +243,10 @@ class Order extends React.Component {
                     name="comfirm" 
                     className="form-check-input"
                     value={this.state.comfirm} 
-                    onChange={this.handleChange.bind(this)}/> Please click here to comfirm your cake order
+                    onChange={this.handleChange.bind(this)}/> Please click here to comfirm your cake order - 请点击这里确认你的蛋糕订单
                 </label>
             </div>
-            <button disabled={!this.state.comfirm} type="submit" className="btn btn-primary">Submit</button>
+            <button style={submitButton} disabled={!this.state.comfirm} type="submit" className="btn btn-primary">Submit</button>
         </form>
         { !this.state.validationFlag ? <InvalidateMessage /> : null }
         { this.state.submitedFlag ? <SubmitedMessage />: null}
@@ -276,9 +286,9 @@ function InvalidateMessage() {
 
 function Menu() {
   return (
-    <div >
-        <div className="menu-english-img"></div>
-        <div className="menu-chinese-img"></div>
+    <div className="row menu">
+        <div className="menu-english-img col-12 col-sm-12 col-md-6  col-lg-6 col-xl-6"></div>
+        <div className="menu-chinese-img col-12 col-sm-12 col-md-6  col-lg-6 col-xl-6"></div>
     </div>
   );
 }

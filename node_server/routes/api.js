@@ -2,20 +2,20 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 var nodemailer = require('nodemailer');
-
 //import mongo model
 const Order = require('../models/order');
+
+// set url for prod or dev
+var current_url = '';
+if(express().get('env') === 'production'){
+    current_url = 'http://triziasweets.com';
+}else{
+    current_url = 'http://localhost:5000';
+}
 
 //get a list of order from db
 router.get('/order', function (req, res, next) {
 	console.log('+++++++++++++++++++++++++Get All Orders++++++++++++++++++++++++++++++');
-	axios.post('http://localhost:5000/api/sayHello', req.body)
-        .then(function(response) {
-            console.log(response);
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
 	Order.find({}).then(function(order){
 		res.send(order);
 	});
@@ -41,7 +41,8 @@ router.post('/order', function(req, res, next) {
     req.body['orderDate'] = date;
     Order.create(req.body).then(function(order) {
     	req.body['emailType'] = 'mailCustomer';
-    	axios.post('http://localhost:5000/api/sendEmail', req.body)
+
+    	axios.post(current_url+'/api/sendEmail', req.body)
         .then(function(response) {
             console.log(response);
         })
