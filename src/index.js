@@ -64,23 +64,29 @@ class Orders extends React.Component{
 
 
   handleSort(event){
-      var orders = this.state.orders;
-      orders.sort(function(a, b) {
-        var orderA = getDate(a.pickupDate); // ignore upper and lowercase
-        var orderB =  getDate(b.pickupDate); // ignore upper and lowercase
-        if (orderA < orderB) {
-          return -1;
-        }
-        if (orderA > orderB) {
-          return 1;
-        }
 
-        // names must be equal
-        return 0;
+    this.setState(prevState => {
+          this.state.orders.sort((a, b) => {
+               var a = a.pickupDate.split('-');
+               var b = b.pickupDate.split('-');
+              console.log('test');
+              return  new Date(a[0], a[1] - 1, a[2]) - new Date(b[0], b[1] - 1, b[2]);
+          })
       });
-      this.setState({
-        orders: orders,
-      });
+
+    console.log(this.state.orders);
+      // var orders = this.state.orders;
+      // orders.sort(function(a, b) {
+
+      //   var a = a.pickupDate.split('-');
+      //    var b = b.pickupDate.split('-');
+   
+      //   return  new Date(a[0], a[1] - 1, a[2]) - new Date(b[0], b[1] - 1, b[2]);
+      // });
+
+      // this.setState({
+      //   orders: orders
+      // });
   }
 
   handleSubmit(event){
@@ -121,8 +127,7 @@ class Orders extends React.Component{
         }
 
         var imagePreview = {
-          'height' : '300px',
-          'width' : '300px'
+          'height' : '300px'
         }
 
         return(
@@ -174,15 +179,15 @@ class Orders extends React.Component{
                 <div className="row">
                    <div className="col-sm-12 col-md-4 col-lg-4">
                         <div>Image 1:</div>
-                        <img  src={image1}/>
+                        <img style={imagePreview} src={image1}/>
                     </div>
                    <div className="col-sm-12 col-md-4 col-lg-4">
                         <div>Image 2:</div>
-                        <img  src={image2}/>
+                        <img style={imagePreview} src={image2}/>
                     </div>
                    <div className="col-sm-12 col-md-4 col-lg-4">
                         <div>Image 3:</div>
-                        <img src={image3}/>
+                        <img style={imagePreview} src={image3}/>
                    </div>
                  </div>
             </div>
@@ -205,7 +210,7 @@ class Orders extends React.Component{
 
 function getDate(pickupDate){
     var date = pickupDate.split('-');
-    return new Date(date[0], date[1], date[2]);
+    return new Date(date[0], date[1] - 1, date[2]);
 }
 
 class Order extends React.Component {
@@ -251,6 +256,16 @@ class Order extends React.Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
+    if(name === 'pickupDate'){
+      var dates = value.split('-');
+      var pickupDate = new Date(dates[0], dates[1] - 1, dates[2]);
+      var currentDate = new Date();
+      var currentYear = currentDate.getYear();
+      var currentMonth = currentDate.getMonth();
+      console.log(currentMonth);
+      var currentDate = currentDate.getDate();
+      var currentTime = new Date (currentYear,currentMonth, currentDate + 7);
+    }
     this.setState({ 
       [name]: value
     });
@@ -355,7 +370,7 @@ class Order extends React.Component {
     }
 
     var imagePreview ={
-
+      width: '300px'
     }
 
     var messageTitle ={
@@ -474,7 +489,7 @@ class Order extends React.Component {
                 id="image1" 
                 aria-describedby="emailHelp" 
                 onChange={this.handleFile.bind(this)} accept="image/x-png,image/gif,image/jpeg"/>
-                <img className='imagePreview' src={this.state.image1.data_uri}/>
+                <img style={imagePreview} src={this.state.image1.data_uri}/>
             </div>
             <div className="form-group">
                 <input 
@@ -484,7 +499,7 @@ class Order extends React.Component {
                 id="image2" 
                 aria-describedby="emailHelp" 
                 onChange={this.handleFile.bind(this)} accept="image/x-png,image/gif,image/jpeg"/>
-                <img className='imagePreview' src={this.state.image2.data_uri}/>
+                <img style={imagePreview} src={this.state.image2.data_uri}/>
             </div>
             <div className="form-group">
                 <input 
@@ -494,7 +509,7 @@ class Order extends React.Component {
                 id="image3" 
                 aria-describedby="emailHelp" 
                 onChange={this.handleFile.bind(this)} accept="image/x-png,image/gif,image/jpeg"/>
-                <img className='imagePreview' src={this.state.image3.data_uri}/>
+                <img style={imagePreview} src={this.state.image3.data_uri}/>
             </div>
             <div className="form-check">
                 <label className="form-check-label">
