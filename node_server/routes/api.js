@@ -8,7 +8,7 @@ const Order = require('../models/order');
 // set url for prod or dev
 var current_url = '';
 if(express().get('env') === 'production'){
-    current_url = 'http://triziasweets.com';
+    current_url = 'http://triziasweets.com:5000';
 }else{
     current_url = 'http://localhost:5000';
 }
@@ -21,6 +21,21 @@ router.get('/order', function (req, res, next) {
 	});
 
 });
+
+//get a list of order from db
+router.post('/orders', function (req, res, next) {
+    console.log('+++++++++++++++++++++++++Get All Orders++++++++++++++++++++++++++++++');
+    console.log(req.body);
+    if(req.body.password === 'pandamojo'){
+          console.log('+++++++++++++++++++++++++Here++++++++++++++++++++++++++++++');
+     Order.find({}).then(function(order){
+        console.log(order);
+            res.send(order);
+        });
+    }
+
+});
+
 
 /*
 Order.geoNear(
@@ -69,7 +84,6 @@ router.delete('/order/:id', function (req, res, next) {
 		res.send(order);
 	});
 });
-
 
 router.post('/sendEmail', handleEmail); // handle the route at yourdomain.com/sayHello
 
@@ -140,4 +154,6 @@ function handleEmail(req, res) {
 	    };
 	});
 }
+
+
 module.exports= router;

@@ -45,6 +45,21 @@ const OrderSchema = new Schema({
 		type: String,
 		required: [true, 'pickupTime field is required']
 	}, 
+	image1:{
+		data_uri: {type: String},
+        filename: {type: String},
+        filetype: {type: String}
+	}, 
+	image2:{
+		data_uri: {type: String},
+        filename: {type: String},
+        filetype: {type: String}
+	}, 
+	image3:{
+		data_uri: {type: String},
+        filename: {type: String},
+        filetype: {type: String}
+	},
 	comfirm:{
 		type: Boolean, 
 		default: false

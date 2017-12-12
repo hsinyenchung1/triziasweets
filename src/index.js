@@ -1,19 +1,211 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import axios from 'axios';
+import  {BrowserRouter as Router, Route, Link, NavLink, Switch} from 'react-router-dom';
 
 // Main Component
 class App extends React.Component {
   render() {
    
     return (
+      <Router>
+        <div>
+          <nav className="navbar navbar-expand-lg navbar-dark bg-info">
+              <a className="navbar-brand" href="#">Trizia Sweets</a>
+              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span className="navbar-toggler-icon"></span>
+              </button>
+
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul className="navbar-nav mr-auto">
+                      <li className="nav-item">
+                          <NavLink activeClassName="active" className="nav-link"  to='/order'>Order</NavLink>
+                      </li>
+                      <li className="nav-item">
+                          <NavLink activeClassName="active" className="nav-link" to='/menu'>Menu</NavLink>
+                      </li>
+                       <li className="nav-item">
+                          <NavLink activeClassName="active" className="nav-link"  to='/track'>Track</NavLink>
+                      </li> 
+                  </ul>
+              </div>
+          </nav>
+          <Switch>
+            <Route exact path="/" component={Order}/>
+            <Route path="/order" component={Order}/>
+            <Route path="/track" component={Orders}/>
+          </Switch>
+          <Footer />
+        </div>
+      </Router>
+      
+    );
+  }
+}
+
+class Orders extends React.Component{
+   constructor(props){
+    super(props);
+    this.state = {
+      password: '',
+      orders: [],
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSort = this.handleSort.bind(this);
+  }
+
+  handleChange(event){
+    this.setState({
+      password : event.target.value,
+    });
+  }
+
+
+  handleSort(event){
+      var orders = this.state.orders;
+      orders.sort(function(a, b) {
+        var orderA = getDate(a.pickupDate); // ignore upper and lowercase
+        var orderB =  getDate(b.pickupDate); // ignore upper and lowercase
+        if (orderA < orderB) {
+          return -1;
+        }
+        if (orderA > orderB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      });
+      this.setState({
+        orders: orders,
+      });
+  }
+
+  handleSubmit(event){
+    event.preventDefault();
+     axios.post('/api/orders', {
+      password: this.state.password
+    })
+    .then((response) =>{
+      this.setState({
+        orders: response.data,
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  render() {
+
+     var orders = this.state.orders;
+     orders = orders.reverse();
+     orders = orders.map(function(order, index){
+
+        var image1 = '';
+        var image2 = '';
+        var image3 = '';
+
+        if(order.image1 && order.image1.data_uri){
+          image1 = order.image1.data_uri
+        }
+
+        if(order.image2 && order.image2.data_uri){
+          image2 = order.image2.data_uri
+        }
+
+        if(order.image3 && order.image3.data_uri){
+          image3 = order.image3.data_uri
+        }
+
+        var imagePreview = {
+          'height' : '300px',
+          'width' : '300px'
+        }
+
+        return(
+
+            <div key={index}>
+                 <table className="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>#Order {index}</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Name: </td>
+                      <td>{order.name}</td>
+                    </tr>
+                    <tr>
+                      <td>Contact: </td>
+                      <td>{order.contactNumber}</td>
+                    </tr>
+                    <tr>
+                      <td>Message: </td>
+                      <td>{order.message}</td>
+                    </tr>
+                    <tr>
+                      <td>Email: </td>
+                      <td>{order.emailAddress}</td>
+                    </tr>
+                    <tr>
+                      <td>weChatID: </td>
+                      <td>{order.weChatID}</td>
+                    </tr>
+                    <tr>
+                      <td>Pickup Date: </td>
+                      <td>{order.pickupDate}</td>
+                    </tr>
+                    <tr>
+                      <td>Pickup Time: </td>
+                      <td>{order.pickupTime}</td>
+                    </tr>
+                    <tr>
+                      <td>Order Date: </td>
+                      <td>{order.orderDate}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div className="row">
+                   <div className="col-sm-12 col-md-4 col-lg-4">
+                        <div>Image 1:</div>
+                        <img  src={image1}/>
+                    </div>
+                   <div className="col-sm-12 col-md-4 col-lg-4">
+                        <div>Image 2:</div>
+                        <img  src={image2}/>
+                    </div>
+                   <div className="col-sm-12 col-md-4 col-lg-4">
+                        <div>Image 3:</div>
+                        <img src={image3}/>
+                   </div>
+                 </div>
+            </div>
+        )
+     });
+    return (
       <div>
-        <Header />
-        <Order/>
-        <Footer />
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <input type="text" name="password"  onChange={this.handleChange.bind(this)}/>
+          <input type="submit" value="Get"/>
+          {/*<button onClick={this.handleSort.bind(this)}>Sort Pickup Date</button>*/}
+        </form>
+        <div className="container">
+          {orders}
+        </div>
       </div>
     );
   }
+}
+
+function getDate(pickupDate){
+    var date = pickupDate.split('-');
+    return new Date(date[0], date[1], date[2]);
 }
 
 class Order extends React.Component {
@@ -32,18 +224,23 @@ class Order extends React.Component {
       pickupTime: '',
       validationFlag: true,
       submitedFlag: false,
-      orders: []
+      orders: [],
+      image1: { data_uri: ''},
+      image2: { data_uri: ''},
+      image3: { data_uri: ''},
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleFile = this.handleFile.bind(this);
   }
+
+
 
   handleClick(event){
       fetch('/api/order').then(function(data){
         return data.json();
       }).then(json => {
-        console.log(json);
         this.setState({
             orders: json
         });
@@ -57,6 +254,26 @@ class Order extends React.Component {
     this.setState({ 
       [name]: value
     });
+  }
+
+   handleFile(event) {
+   
+    const name = event.target.name;
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (upload) => {
+      let currUpload = {
+        data_uri: upload.target.result,
+        filename: file.name,
+        filetype: file.type
+      };
+      this.setState({
+        [name] : currUpload
+      });
+    };
+    if (file && file.type.match('image.*')) {
+      reader.readAsDataURL(file);
+    }
   }
 
   handleSubmit(event){
@@ -99,9 +316,8 @@ class Order extends React.Component {
           pickupDate:'', 
           pickupTime: '',
           validationFlag: true,
-          submitedFlag: true
+          submitedFlag: true,
         });
-        console.log(response);
       });
     }
 
@@ -131,19 +347,31 @@ class Order extends React.Component {
 
     var submitButton = {
       width: '100%',
-      'margin-bottom': '20px',
+      marginBottom: '20px',
     }
 
     var formStyle = {
       margin: '50px',
     }
 
+    var imagePreview ={
+
+    }
+
+    var messageTitle ={
+      color: '#912626',
+      'fontSize': '16px',
+      'fontWeight' : 'bold',
+    }
+
     return (
       <div id="order-container" style={formStyle}>
+        <h1 style={messageTitle}>We are fully order on 12/23 and 12/24 - 2/23 和 12/24 订单已满</h1>
         { !this.state.validationFlag ? <InvalidateMessage /> : null }
-        <form onSubmit={this.handleSubmit.bind(this)}>
+        
+        <form onSubmit={this.handleSubmit.bind(this)} encType="multipart/form-data">
             <div className="form-group">
-                <label htmlFor="emailAddress">Email address - 电子邮箱
+                <label htmlFor="emailAddress">Email address - 电子邮箱 *
                 </label>
                 <input 
                 type="text" 
@@ -158,7 +386,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field. We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="contactNumber">Contact Number - 联系电话</label>
+                <label htmlFor="contactNumber">Contact Number - 联系电话 *</label>
                 <input 
                 type="text" 
                 className="form-control"
@@ -171,7 +399,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field. We'll never share your contact number with anyone else.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="name">Name - 姓名</label>
+                <label htmlFor="name">Name - 姓名 *</label>
                 <input 
                 type="text" 
                 className="form-control" 
@@ -196,7 +424,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">We'll add your WeChat for more information.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="pickupDate">Pick up date - 取货日期
+                <label htmlFor="pickupDate">Pick up date - 取货日期 *
                 </label>
                 <input 
                 type="date" 
@@ -210,7 +438,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="pickupTime">Pick up time - 取货时间
+                <label htmlFor="pickupTime">Pick up time - 取货时间 *
                 </label>
                 <input 
                 type="time" 
@@ -224,7 +452,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="message">Message - 信息
+                <label htmlFor="message">Message - 信息 *
                 </label>
                 <textarea 
                 className="form-control" 
@@ -236,6 +464,38 @@ class Order extends React.Component {
                 </textarea>
                 <small className="form-text text-muted">Required field.</small>
             </div>
+            <div className="form-group">
+                <label htmlFor="image1">Up load image - 上传图片
+                </label>
+                <input 
+                type="file" 
+                className="form-control" 
+                name="image1" 
+                id="image1" 
+                aria-describedby="emailHelp" 
+                onChange={this.handleFile.bind(this)} accept="image/x-png,image/gif,image/jpeg"/>
+                <img className='imagePreview' src={this.state.image1.data_uri}/>
+            </div>
+            <div className="form-group">
+                <input 
+                type="file" 
+                className="form-control" 
+                name="image2" 
+                id="image2" 
+                aria-describedby="emailHelp" 
+                onChange={this.handleFile.bind(this)} accept="image/x-png,image/gif,image/jpeg"/>
+                <img className='imagePreview' src={this.state.image2.data_uri}/>
+            </div>
+            <div className="form-group">
+                <input 
+                type="file" 
+                className="form-control" 
+                name="image3" 
+                id="image3" 
+                aria-describedby="emailHelp" 
+                onChange={this.handleFile.bind(this)} accept="image/x-png,image/gif,image/jpeg"/>
+                <img className='imagePreview' src={this.state.image3.data_uri}/>
+            </div>
             <div className="form-check">
                 <label className="form-check-label">
                     <input 
@@ -243,7 +503,7 @@ class Order extends React.Component {
                     name="comfirm" 
                     className="form-check-input"
                     value={this.state.comfirm} 
-                    onChange={this.handleChange.bind(this)}/> Please click here to comfirm your cake order - 请点击这里确认你的蛋糕订单
+                    onChange={this.handleChange.bind(this)}/> Please click here to comfirm your cake order - 请点击这里确认你的蛋糕订单 *
                 </label>
             </div>
             <button style={submitButton} disabled={!this.state.comfirm} type="submit" className="btn btn-primary">Submit</button>
@@ -252,21 +512,55 @@ class Order extends React.Component {
         { this.state.submitedFlag ? <SubmitedMessage />: null}
         {/*<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this)}>Orders</button>
         <ul>{orders}</ul>*/}
+        {orders}
         <Menu />
       </div>
     );
   }
 }
 
+
+// Header Component
+class Header extends React.Component {
+
+  render() {
+
+    return (
+      <nav className="navbar navbar-expand-lg navbar-dark bg-info">
+          <a className="navbar-brand" href="#">Trizia Sweets</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="navbar-nav mr-auto">
+                  <li className="nav-item">
+                      <NavLink activeClassName="active" className="nav-link" to='/menu'>Menu</NavLink>
+                  </li>
+                   <li className="nav-item">
+                      <NavLink activeClassName="active" className="nav-link"  to='/track'>Track</NavLink>
+                  </li>
+                  <li className="nav-item">
+                      <NavLink activeClassName="active" className="nav-link"  to='/order'>Order</NavLink>
+                  </li>
+              </ul>
+          </div>
+      </nav>
+    );
+  }
+}
+
+
+
 function SubmitedMessage() {
   var divStyle = {
     color: 'green',
     margin: '20px',
-    'font-size': '18px'
+    'fontSize': '18px'
   };
   return (
     <div style={divStyle}>
-        <span>Your oder is submited</span>
+        <span>Your oder is submited - 您已成功下单</span>
     </div>
   );
 }
@@ -275,11 +569,11 @@ function InvalidateMessage() {
   var divStyle = {
     color: 'red',
     margin: '20px',
-    'font-size': '18px'
+    'fontSize': '18px'
   };
   return (
     <div style={divStyle}>
-        <span>All input fields are required except webCahtID</span>
+        <span>All input fields with * are required. - * 為必填項目</span>
     </div>
   );
 }
@@ -293,50 +587,15 @@ function Menu() {
   );
 }
 
-// Header Component
-class Header extends React.Component {
-  render() {
-   
-    return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-info">
-          <a className="navbar-brand" href="#">Trizia Sweets</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav mr-auto">
-                  <li className="nav-item active">
-                      <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-                  </li>
-                  <li className="nav-item">
-                      <a className="nav-link" href="#">Link</a>
-                  </li>
-                  {/*<li className="nav-item dropdown">
-                      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                      </a>
-                      <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a className="dropdown-item" href="#">Action</a>
-                          <a className="dropdown-item" href="#">Another action</a>
-                          <div className="dropdown-divider"></div>
-                          <a className="dropdown-item" href="#">Something else here</a>
-                      </div>
-                  </li>
-                  <li className="nav-item">
-                      <a className="nav-link disabled" href="#">Disabled</a>
-                  </li>
-              </ul>
-              <form className="form-inline my-2 my-lg-0">
-                  <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                  <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-              </form>*/}
-              </ul>
-          </div>
-      </nav>
-    );
-  }
+function Track() {
+  return (
+    <div className="">
+        <h1>Track my cake</h1>
+    </div>
+  );
 }
+
+
 
 // Footer Component
 class Footer extends React.Component {
@@ -381,7 +640,7 @@ class Footer extends React.Component {
 
 // ========================================
 
-ReactDOM.render(
-  <App />,
+ ReactDOM.render(
+     <App />,
   document.getElementById('root')
 );

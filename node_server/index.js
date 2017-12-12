@@ -11,7 +11,7 @@ const path = require('path');
 //set up express app
 const app = express();
 const dev = app.get('env') != 'production';
-const PORT = app.get('env') === 'production'? 80 : 5000;
+const PORT = 5000;
 
 if(app.get('env') === 'production'){
 	console.log('============ production env ============');
@@ -21,7 +21,6 @@ if(app.get('env') === 'production'){
 	app.use(morgan('common'));
 
 	app.use(express.static(path.resolve(__dirname, 'build')));
-
 	app.get('', (req, res) =>{
 		res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 	});
@@ -37,7 +36,7 @@ mongoose.connect(mongodb_url, {useMongoClient: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.use('/api', require('./routes/api'));
 app.use(function(err,req, res, next){
