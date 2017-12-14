@@ -381,12 +381,14 @@ class Order extends React.Component {
 
     return (
       <div id="order-container" style={formStyle}>
-        <h1 style={messageTitle}>We are fully order on 12/23 and 12/24 - 2/23 和 12/24 订单已满</h1>
+        <h1 style={messageTitle}>We are fully ordered on 12/20 ~ 12/24</h1>
+        <h1 style={messageTitle}> 感谢大家的支持，12/20-12/24 订单已满。</h1>
+        <h1 style={messageTitle}> Happy Holidays!</h1>
         { !this.state.validationFlag ? <InvalidateMessage /> : null }
         
         <form onSubmit={this.handleSubmit.bind(this)} encType="multipart/form-data">
             <div className="form-group">
-                <label htmlFor="emailAddress">Email address - 电子邮箱 *
+                <label htmlFor="emailAddress">Email Address - 电子邮箱 *
                 </label>
                 <input 
                 type="text" 
@@ -439,7 +441,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">We'll add your WeChat for more information.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="pickupDate">Pick up date - 取货日期 *
+                <label htmlFor="pickupDate">Pick Up Date - 取货日期 *
                 </label>
                 <input 
                 type="date" 
@@ -453,7 +455,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="pickupTime">Pick up time - 取货时间 *
+                <label htmlFor="pickupTime">Pick Up Time - 取货时间 *
                 </label>
                 <input 
                 type="time" 
@@ -467,7 +469,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="message">Message - 信息 *
+                <label htmlFor="message">Your Orders - 请在此处填写您要订购的甜品 *
                 </label>
                 <textarea 
                 className="form-control" 
@@ -480,7 +482,7 @@ class Order extends React.Component {
                 <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
-                <label htmlFor="image1">Up load image - 上传图片
+                <label htmlFor="image1">Up Load Image - 上传图片
                 </label>
                 <input 
                 type="file" 
