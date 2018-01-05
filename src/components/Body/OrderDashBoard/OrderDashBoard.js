@@ -151,15 +151,24 @@ export class OrderDashBoard extends React.Component{
         )
      });
     return (
-      <div>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <input type="text" name="password"  onChange={this.handleChange.bind(this)}/>
-          <input type="submit" value="Get"/>
-          {/*<button onClick={this.handleSort.bind(this)}>Sort Pickup Date</button>*/}
-        </form>
-        <div className="container">
-          {orders}
-        </div>
+      <div className="">
+          <div className="row">
+              <div className="col-12">
+                  <div className="form-group">
+                    <form onSubmit={this.handleSubmit.bind(this)}>
+                        Please enter passord: 
+                        <br/>
+                        <input classname="" type="text" name="password" onChange={this.handleChange.bind(this)}/>
+                        <br/>
+                        <input className="btn btn-primary btn-color" type="submit" value="Get" /> {/*
+                        <button onClick={this.handleSort.bind(this)}>Sort Pickup Date</button>*/}
+                    </form>
+                  </div>
+              </div>
+          </div>
+          <div className="">
+              {orders}
+          </div>
       </div>
     );
   }

@@ -84,7 +84,7 @@ export class OrderForm extends React.Component {
     let isFormValidate = true;
     
     for(var key in currentOrder){
-      if(key === 'weChatID'){
+      if(key === 'weChatID' || key === 'comfirm'){
         continue;
       }
 
@@ -183,7 +183,6 @@ export class OrderForm extends React.Component {
                 value={this.state.emailAddress}
                 onChange={this.handleChange.bind(this)} 
                 />
-                <small className="form-text text-muted">Required field. We'll never share your email with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="contactNumber">Contact Number - 联系电话 *</label>
@@ -196,7 +195,6 @@ export class OrderForm extends React.Component {
                 placeholder="Enter number"
                 value={this.state.contactNumber} 
                 onChange={this.handleChange.bind(this)} />
-                <small className="form-text text-muted">Required field. We'll never share your contact number with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="name">Name - 姓名 *</label>
@@ -208,7 +206,6 @@ export class OrderForm extends React.Component {
                 placeholder="Enter name" 
                 value={this.state.name} 
                 onChange={this.handleChange.bind(this)}/>
-                <small className="form-text text-muted">Required field. We'll never share your name with anyone else.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="weChatID">WeChat ID - 微信</label>
@@ -221,7 +218,6 @@ export class OrderForm extends React.Component {
                 placeholder="Enter wechat ID" 
                 value={this.state.weChatID} 
                 onChange={this.handleChange.bind(this)}/>
-                <small className="form-text text-muted">We'll add your WeChat for more information.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="pickupDate">Pick Up Date - 取货日期 *
@@ -235,7 +231,6 @@ export class OrderForm extends React.Component {
                 placeholder="Pickup Date" 
                 value={this.state.pickupDate} 
                 onChange={this.handleChange.bind(this)}/>
-                <small className="form-text text-muted">Required field.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="pickupTime">Pick Up Time - 取货时间 *
@@ -249,8 +244,7 @@ export class OrderForm extends React.Component {
                 placeholder="Pickup Time" 
                 value={this.state.pickupTime} 
                 onChange={this.handleChange.bind(this)}/>
-                <small className="form-text text-muted">Required field.</small>
-            </div>
+           </div>
             <div className="form-group">
                 <label htmlFor="message">Your Orders - 请在此处填写您要订购的甜品 *
                 </label>
@@ -262,8 +256,7 @@ export class OrderForm extends React.Component {
                 value={this.state.message} 
                 onChange={this.handleChange.bind(this)}>
                 </textarea>
-                <small className="form-text text-muted">Required field.</small>
-            </div>
+          </div>
             <div className="form-group">
                 <label htmlFor="image1">Up Load Image - 上传图片
                 </label>
@@ -296,17 +289,7 @@ export class OrderForm extends React.Component {
                 onChange={this.handleFile.bind(this)} accept="image/x-png,image/gif,image/jpeg"/>
                 <img style={imagePreview} src={this.state.image3.data_uri}/>
             </div>
-            <div className="form-check">
-                <label className="form-check-label">
-                    <input 
-                    type="checkbox" 
-                    name="comfirm" 
-                    className="form-check-input"
-                    value={this.state.comfirm} 
-                    onChange={this.handleChange.bind(this)}/> Please click here to comfirm your cake order - 请点击这里确认你的蛋糕订单 *
-                </label>
-            </div>
-            <button style={submitButton} disabled={!this.state.comfirm} type="submit" className="btn btn-primary">Submit</button>
+            <button style={submitButton} type="submit" className="btn btn-primary">Submit</button>
         </form>
         { !this.state.validationFlag ? <InvalidateMessage /> : null }
         { this.state.submitedFlag ? <SubmitedMessage />: null}

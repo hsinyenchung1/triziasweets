@@ -24,10 +24,10 @@ router.get('/order', function (req, res, next) {
 
 //get a list of order from db
 router.post('/orders', function (req, res, next) {
-    console.log('+++++++++++++++++++++++++Get All Orders++++++++++++++++++++++++++++++');
+    console.log('+++++++++++++++++++++++++Post All Orders++++++++++++++++++++++++++++++');
     console.log(req.body);
     if(req.body.password === 'pandamojo'){
-          console.log('+++++++++++++++++++++++++Here++++++++++++++++++++++++++++++');
+    console.log('+++++++++++++++++++++++++Here++++++++++++++++++++++++++++++');
      Order.find({}).then(function(order){
         console.log(order);
             res.send(order);
@@ -35,7 +35,6 @@ router.post('/orders', function (req, res, next) {
     }
 
 });
-
 
 /*
 Order.geoNear(
