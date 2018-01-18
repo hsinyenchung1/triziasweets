@@ -1,0 +1,11 @@
+@import '_colors';
+
+@import './components/OrderForm';
+@import './components/HeaderNav';
+
+body{
+  margin: 0;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+}
