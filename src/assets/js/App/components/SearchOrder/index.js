@@ -1,83 +1,98 @@
 import React from 'react';
 import View from './View';
-import {loadAllOrdersData} from './loadData';
-import axios from 'axios';
+import { loadAllOrdersData } from './loadData';
 
-export default class extends React.Component{
+function getPickUpOrderByDays(days, orders) {
+  const date = new Date();
+  const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+  const currentPickupOrders = [];
+  orders.forEach((order) => {
+    const currPickupDate = order.pickupDate.split('-');
+    const pickupDate = new Date(currPickupDate[0], currPickupDate[1] - 1, currPickupDate[2]);
+    if (pickupDate.getTime() >= currentDate.getTime() &&
+        pickupDate.getTime() <= endDate.getTime()) {
+      currentPickupOrders.push(order);
+    }
+  });
 
-	constructor(){
-		super()
-		this.state = {
-			password: "",
-			sortBtnFlag : false,
-      		orders: [],
-      		displayOrders: []
-		}
-
-	    this.passwordSubmit = this.passwordSubmit.bind(this);
-	    this.onChangeInput = this.onChangeInput.bind(this);
-	    this.sortOrdersAction = this.sortOrdersAction.bind(this);
-	    this.getCurrentDateOrders = this.getCurrentDateOrders.bind(this);
-	    this.getWeekOrders = this.getWeekOrders.bind(this);
-	}
-
-	onChangeInput(e){
-		this.setState({
-			password : e.target.value, 
-		});
-	}
-
-	passwordSubmit(e){
-		e.preventDefault();
-		const ordersPromise = loadAllOrdersData(this.state.password);
-		ordersPromise.then(response => {
-			this.setState({
-				orders : response,
-				displayOrders : response, 
-				sortBtnFlag: true
-			});
-		});
-	}
-
-	sortOrdersAction(e){
-		e.preventDefault();
-
-		const sortOrders = this.state.orders.sort((a, b) => {
-			var a = a.pickupDate.split('-');
-			var b = b.pickupDate.split('-');
-			return new Date(b[0], b[1] - 1, b[2]) - new Date(a[0], a[1] - 1, a[2]);
-		});
-
-		 this.setState({
-	          displayOrders: sortOrders,
-	     });
-	}
+  return currentPickupOrders;
+}
 
 
-	getCurrentDateOrders(e){
-		e.preventDefault();
-		const currentPickupOrders = getPickUpOrderByDays(0, this.state.orders);
+export default class extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      password: '',
+      sortBtnFlag: false,
+      orders: [],
+      displayOrders: [],
+    };
 
-		if(currentPickupOrders !== null){
-			this.setState({
-				displayOrders : currentPickupOrders,
-			});
-		}
-	}
+    this.passwordSubmit = this.passwordSubmit.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
+    this.sortOrdersAction = this.sortOrdersAction.bind(this);
+    this.getCurrentDateOrders = this.getCurrentDateOrders.bind(this);
+    this.getWeekOrders = this.getWeekOrders.bind(this);
+  }
 
-	getWeekOrders(e){
-		e.preventDefault();
-		const currentPickupOrders = getPickUpOrderByDays(3, this.state.orders);
+  onChangeInput(e) {
+    this.setState({
+      password: e.target.value,
+    });
+  }
 
-		if(currentPickupOrders !== null){
-			this.setState({
-				displayOrders : currentPickupOrders,
-			});
-		}
-	}
+  getCurrentDateOrders(e) {
+    e.preventDefault();
+    const currentPickupOrders = getPickUpOrderByDays(0, this.state.orders);
+    if (currentPickupOrders !== null) {
+      this.setState({
+        displayOrders: currentPickupOrders,
+      });
+    }
+  }
 
-	render(){
-		return(
+  getWeekOrders(e){
+    e.preventDefault();
+    const currentPickupOrders = getPickUpOrderByDays(3, this.state.orders);
+
+    if (currentPickupOrders !== null) {
+      this.setState({
+        displayOrders: currentPickupOrders,
+      });
+    }
+  }
+
+  sortOrdersAction(e) {
+    e.preventDefault();
+
+    const sortOrders = this.state.orders.sort((a, b) => {
+      const aTime = a.pickupDate.split('-');
+      const bTime = b.pickupDate.split('-');
+      return new Date(bTime[0], bTime[1] - 1, bTime[2]) -
+      new Date(aTime[0], aTime[1] - 1, aTime[2]);
+    });
+
+    this.setState({
+      displayOrders: sortOrders,
+    });
+  }
+
+  passwordSubmit(e) {
+    e.preventDefault();
+    const ordersPromise = loadAllOrdersData(this.state.password);
+    ordersPromise.then((response) => {
+      this.setState({
+        orders: response,
+        displayOrders: response,
+        sortBtnFlag: true,
+      });
+    });
+  }
+
+  render() {
+    return (
 			<div>
 				<View
 					orders = {this.state.displayOrders}
@@ -94,21 +109,3 @@ export default class extends React.Component{
 }
 
 
-function getPickUpOrderByDays(days, orders){
-
-	const date = new Date(); 
-	const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-	const endDate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
-	let currentPickupOrders = new Array();
-	orders.forEach((order)=>{
-	
-		const currPickupDate = order.pickupDate.split('-');
-		const pickupDate = new Date (currPickupDate[0], currPickupDate[1] - 1, currPickupDate[2]);
-
-		if(pickupDate.getTime() >= currentDate.getTime() && pickupDate.getTime() <= endDate.getTime()){
-			currentPickupOrders.push(order);
-		}
-	});
-
-	return currentPickupOrders;
-}
