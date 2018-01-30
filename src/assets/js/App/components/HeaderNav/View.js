@@ -1,19 +1,21 @@
 import React from 'react';
-import {HeaderNav} from './HeaderNav';
+import PropTypes from 'prop-types';
+import { HeaderNav } from './HeaderNav';
 
-const View = ({ 
-  RenderHeaderNav,
+const View = ({
+  RenderHeaderNav
 }) => (
   <div>
-  		<HeaderNav />
+    <HeaderNav />
   </div>
 );
 
 View.propTypes = {
+  RenderHeaderNav: PropTypes.func
 };
 
 View.defaultProps = {
-  RenderHeaderNav: HeaderNav,
+  RenderHeaderNav: HeaderNav
 };
 
 export default View;

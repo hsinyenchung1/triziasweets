@@ -1,41 +1,53 @@
 import React from 'react';
-import {SearchOrder} from './SearchOrder';
-import {InputPassword} from './InputPassword';
-import {ListOrders} from './ListOrders';
+import PropTypes from 'prop-types';
+import { SearchOrder } from './SearchOrder';
+import { InputPassword } from './InputPassword';
+import { ListOrders } from './ListOrders';
 
-const View = ({ 
-  RenderSearchOrder, RenderInputPassword, RenderListOrders, onChangeInput, onPasswordSubmit, 
-  orders, sortOrdersAction, getCurrentDateOrders, getWeekOrders, sortBtnFlag
+const View = ({
+  RenderSearchOrder, RenderInputPassword, RenderListOrders, onPasswordSubmit,
+  onChangeInput, sortBtnFlag, sortOrdersAction, getCurrentDateOrders, getWeekOrders, orders
 }) => (
-	<div>
-	  <RenderInputPassword 
-	  	onPasswordSubmit={onPasswordSubmit}
-	  	onChangeInput={onChangeInput}
-	  />
+  <div>
+    <RenderInputPassword
+      onPasswordSubmit={onPasswordSubmit}
+      onChangeInput={onChangeInput}
+    />
 
-    { 
+    {
         sortBtnFlag ? (
-        <RenderSearchOrder 
-        sortBtnFlag={sortBtnFlag}
-        sortOrdersAction={sortOrdersAction} 
-        getCurrentDateOrders={getCurrentDateOrders}
-        getWeekOrders={getWeekOrders}/>
+          <RenderSearchOrder
+            sortBtnFlag={sortBtnFlag}
+            sortOrdersAction={sortOrdersAction}
+            getCurrentDateOrders={getCurrentDateOrders}
+            getWeekOrders={getWeekOrders}
+          />
         ) : (
-          <span></span>
+          <span />
         )
     }
-    
-    <RenderListOrders orders ={orders}/>
+
+    <RenderListOrders orders={orders} />
   </div>
 );
 
 View.propTypes = {
+  RenderSearchOrder: PropTypes.func,
+  RenderInputPassword: PropTypes.func,
+  RenderListOrders: PropTypes.func,
+  onPasswordSubmit: PropTypes.func.isRequired,
+  onChangeInput: PropTypes.func.isRequired,
+  sortBtnFlag: PropTypes.bool.isRequired,
+  sortOrdersAction: PropTypes.func.isRequired,
+  getCurrentDateOrders: PropTypes.func.isRequired,
+  getWeekOrders: PropTypes.func.isRequired,
+  orders: PropTypes.array.isRequired
 };
 
 View.defaultProps = {
   RenderSearchOrder: SearchOrder,
   RenderInputPassword: InputPassword,
-  RenderListOrders: ListOrders,
+  RenderListOrders: ListOrders
 };
 
 export default View;

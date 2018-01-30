@@ -1,17 +1,19 @@
 import React from 'react';
-import {OrderForm} from './OrderForm';
+import PropTypes from 'prop-types';
+import { OrderForm } from './OrderForm';
 
-const View = ({ 
-  RenderOrderForm,
+const View = ({
+  RenderOrderForm
 }) => (
-      <RenderOrderForm/>
+  <RenderOrderForm />
 );
 
 View.propTypes = {
+  RenderOrderForm: PropTypes.func
 };
 
 View.defaultProps = {
-  RenderOrderForm: OrderForm,
+  RenderOrderForm: OrderForm
 };
 
 export default View;

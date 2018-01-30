@@ -1,12 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import View from './View';
-import loadData from './loadData';
 
-export default class extends Component {
+export default () => (
+  <View />
+);
 
-  render() {
-    return (
-    	<View />
-    );
-  }
-}

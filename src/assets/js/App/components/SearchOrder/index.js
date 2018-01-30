@@ -27,7 +27,7 @@ export default class extends React.Component {
       password: '',
       sortBtnFlag: false,
       orders: [],
-      displayOrders: [],
+      displayOrders: []
     };
 
     this.passwordSubmit = this.passwordSubmit.bind(this);
@@ -39,7 +39,7 @@ export default class extends React.Component {
 
   onChangeInput(e) {
     this.setState({
-      password: e.target.value,
+      password: e.target.value
     });
   }
 
@@ -48,18 +48,18 @@ export default class extends React.Component {
     const currentPickupOrders = getPickUpOrderByDays(0, this.state.orders);
     if (currentPickupOrders !== null) {
       this.setState({
-        displayOrders: currentPickupOrders,
+        displayOrders: currentPickupOrders
       });
     }
   }
 
-  getWeekOrders(e){
+  getWeekOrders(e) {
     e.preventDefault();
     const currentPickupOrders = getPickUpOrderByDays(3, this.state.orders);
 
     if (currentPickupOrders !== null) {
       this.setState({
-        displayOrders: currentPickupOrders,
+        displayOrders: currentPickupOrders
       });
     }
   }
@@ -75,7 +75,7 @@ export default class extends React.Component {
     });
 
     this.setState({
-      displayOrders: sortOrders,
+      displayOrders: sortOrders
     });
   }
 
@@ -86,26 +86,25 @@ export default class extends React.Component {
       this.setState({
         orders: response,
         displayOrders: response,
-        sortBtnFlag: true,
+        sortBtnFlag: true
       });
     });
   }
 
   render() {
     return (
-			<div>
-				<View
-					orders = {this.state.displayOrders}
-					sortBtnFlag = {this.state.sortBtnFlag}
-					onPasswordSubmit={this.passwordSubmit.bind(this)} 
-					onChangeInput={this.onChangeInput.bind(this)}
-					sortOrdersAction={this.sortOrdersAction.bind(this)}
-					getCurrentDateOrders={this.getCurrentDateOrders.bind(this)}
-					getWeekOrders={this.getWeekOrders.bind(this)}
-				/>	
-			</div>
-		);
-	}
+      <div>
+        <View
+          orders={this.state.displayOrders}
+          sortBtnFlag={this.state.sortBtnFlag}
+          onPasswordSubmit={this.passwordSubmit}
+          onChangeInput={this.onChangeInput}
+          sortOrdersAction={this.sortOrdersAction}
+          getCurrentDateOrders={this.getCurrentDateOrders}
+          getWeekOrders={this.getWeekOrders}
+        />
+      </div>
+    );
+  }
 }
-
 
