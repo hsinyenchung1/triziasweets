@@ -9,6 +9,7 @@ export const App = () => (
       <Route exact path="/" component={OrderPage} />
       <Route path="/home" component={OrderPage} />
       <Route path="/order" component={OrderPage} />
+      <Route path="/cake" component={OrderPage} />
       <Route path="/track" component={TrackPage} />
     </Switch>
   </Router>

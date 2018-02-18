@@ -43,7 +43,7 @@ export class HeaderNav extends React.Component {
           <nav>
             <ul>
               <li><NavLink to="/home">HOME</NavLink></li>
-              <li><NavLink to="/order">CAKE</NavLink></li>
+              <li><NavLink to="/cake">CAKE</NavLink></li>
               <li><NavLink to="/order">ORDER</NavLink></li>
               <li><NavLink to="/track">TRACK</NavLink></li>
             </ul>
@@ -66,7 +66,7 @@ export class HeaderNav extends React.Component {
             <nav className={display}>
               <ul>
                 <li><NavLink to="/home">HOME</NavLink></li>
-                <li><NavLink to="/order">CAKE</NavLink></li>
+                <li><NavLink to="/cake">CAKE</NavLink></li>
                 <li><NavLink to="/order">ORDER</NavLink></li>
                 <li><NavLink to="/track">TRACK</NavLink></li>
               </ul>

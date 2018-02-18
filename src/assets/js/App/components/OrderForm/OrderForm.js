@@ -100,10 +100,6 @@ export class OrderForm extends React.Component {
       marginBottom: '20px'
     };
 
-    const imagePreview = {
-      width: '300px'
-    };
-
     return (
       <div className="orderfrom-main-container">
         <div className="row">
@@ -111,7 +107,8 @@ export class OrderForm extends React.Component {
             { !this.state.validationFlag ? <InvalidateMessage /> : null }
             <form onSubmit={this.handleSubmit.bind(this)} encType="multipart/form-data">
               <div className="form-group">
-                <label htmlFor="emailAddress">Email Address - 电子邮箱 *
+                <label htmlFor="emailAddress" className="orderform-input-with-100">
+                Email Address - 电子邮箱 *
                   <input
                     type="text"
                     className="form-control"
@@ -125,7 +122,8 @@ export class OrderForm extends React.Component {
                 </label>
               </div>
               <div className="form-group">
-                <label htmlFor="contactNumber">Contact Number - 联系电话 *
+                <label htmlFor="contactNumber" className="orderform-input-with-100">
+                Contact Number - 联系电话 *
                   <input
                     type="text"
                     className="form-control"
@@ -139,7 +137,7 @@ export class OrderForm extends React.Component {
                 </label>
               </div>
               <div className="form-group">
-                <label htmlFor="name">Name - 姓名 *
+                <label htmlFor="name" className="orderform-input-with-100">Name - 姓名 *
                   <input
                     type="text"
                     className="form-control"
@@ -153,7 +151,7 @@ export class OrderForm extends React.Component {
                 </label>
               </div>
               <div className="form-group">
-                <label htmlFor="weChatID">WeChat ID - 微信
+                <label htmlFor="weChatID" className="orderform-input-with-100">WeChat ID - 微信
                   <input
                     type="text"
                     className="form-control"
@@ -167,7 +165,8 @@ export class OrderForm extends React.Component {
                 </label>
               </div>
               <div className="form-group">
-                <label htmlFor="pickupDate">Pick Up Date - 取货日期 *
+                <label htmlFor="pickupDate" className="orderform-input-with-100">
+                Pick Up Date - 取货日期 *
                   <input
                     type="date"
                     className="form-control"
@@ -181,7 +180,8 @@ export class OrderForm extends React.Component {
                 </label>
               </div>
               <div className="form-group">
-                <label htmlFor="pickupTime">Pick Up Time - 取货时间 *
+                <label htmlFor="pickupTime" className="orderform-input-with-100">
+                Pick Up Time - 取货时间 *
                   <input
                     type="time"
                     className="form-control"
@@ -195,7 +195,8 @@ export class OrderForm extends React.Component {
                 </label>
               </div>
               <div className="form-group">
-                <label htmlFor="message">Your Orders - 请在此处填写您要订购的甜品 *
+                <label htmlFor="message" className="orderform-input-with-100">
+                Your Orders - 请在此处填写您要订购的甜品 *
                   <textarea
                     className="form-control"
                     name="message"
@@ -207,7 +208,7 @@ export class OrderForm extends React.Component {
                 </label>
               </div>
               <div className="form-group">
-                <label htmlFor="image1">Up Load Image - 上传图片
+                <label htmlFor="image1" className="orderform-input-with-100">Up Load Image - 上传图片
                   <input
                     type="file"
                     className="form-control"
@@ -218,7 +219,6 @@ export class OrderForm extends React.Component {
                     accept="image/x-png,image/gif,image/jpeg"
                   />
                 </label>
-                <img style={imagePreview} alt="image1" src={this.state.image1.data_uri} />
               </div>
               <div className="form-group">
                 <input
@@ -230,19 +230,17 @@ export class OrderForm extends React.Component {
                   onChange={this.handleFile.bind(this)}
                   accept="image/x-png,image/gif,image/jpeg"
                 />
-                <img style={imagePreview} alt="image2" src={this.state.image2.data_uri} />
               </div>
               <div className="form-group">
                 <input
                   type="file"
-                  className="form-control"
+                  className="form-control input-width"
                   name="image3"
                   id="image3"
                   aria-describedby="emailHelp"
                   onChange={this.handleFile.bind(this)}
                   accept="image/x-png,image/gif,image/jpeg"
                 />
-                <img style={imagePreview} alt="image3" src={this.state.image3.data_uri} />
               </div>
               <button style={submitButton} type="submit" className="btn btn-primary">Submit</button>
             </form>
