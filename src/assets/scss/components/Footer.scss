@@ -1,0 +1,96 @@
+@import '../_colors';
+
+footer .page-footer{
+  color: white;
+}
+
+.font-small{
+  font-size: 0.8em;
+}
+
+.indigo{
+  background-color: $navcolor;
+}
+
+.pt-0{
+  padding-top: 0 !important;
+}
+
+.pt-5{
+  padding-top: 3rem !important;
+}
+
+.pb-5, .py-5 {
+  padding-bottom: 3rem !important;
+}
+
+.pt-5, .py-5 {
+  padding-top: 3rem !important;
+}
+
+.mb-5, .my-5 {
+  margin-bottom: 3rem !important;
+}
+
+.mt-5 {
+  margin-top: 3rem!important;
+}
+
+footer.page-footer .footer-copyright {
+  overflow: hidden;
+  background-color: rgba(0,0,0,.2);
+  font-size: .9rem;
+  color: rgba(255,255,255,.6);
+}
+
+.text-center {
+  text-align: center!important;
+}
+
+.pb-3, .py-3 {
+  padding-bottom: 1rem!important;
+}
+
+.pt-3, .py-3 {
+  padding-top: 1rem!important;
+}
+
+.white-text{ 
+  color: white;
+}
+
+.footer-font-18 {
+  font-size: 18px;
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  overflow:hidden;
+}
+
+.footer-flex-center{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100%;
+}
+
+.footer-social-icon {
+ margin: 16px;
+}
+
+.footer-height-100 {
+  height: 100px;
+}

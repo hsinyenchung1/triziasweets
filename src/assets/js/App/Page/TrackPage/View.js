@@ -6,8 +6,7 @@ import SearchOrder from '../../components/SearchOrder';
 const View = ({
   RenderHeaderNav, RenderSearchOrder
 }) => (
-  <div>
-    <RenderHeaderNav />
+  <div className="container">
     <RenderSearchOrder />
   </div>
 );

@@ -8,7 +8,7 @@ const View = ({
   RenderSearchOrder, RenderInputPassword, RenderListOrders, onPasswordSubmit,
   onChangeInput, sortBtnFlag, sortOrdersAction, getCurrentDateOrders, getWeekOrders, orders
 }) => (
-  <div>
+  <div className="container">
     <RenderInputPassword
       onPasswordSubmit={onPasswordSubmit}
       onChangeInput={onChangeInput}

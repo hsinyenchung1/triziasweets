@@ -1,18 +1,32 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import OrderPage from './Page/OrderPage';
-import TrackPage from './Page/TrackPage';
+import { Link, withRouter } from 'react-router-dom';
+import { Navbar, Nav } from 'react-bootstrap';
+import { Footer } from './containers/Footer/Footer';
+import RouteNavItem from './components/RouteNavItem/RouteNavItem';
+import Routes from './Routes/Routes';
+
 
 export const App = () => (
-  <Router>
-    <Switch>
-      <Route exact path="/" component={OrderPage} />
-      <Route path="/home" component={OrderPage} />
-      <Route path="/order" component={OrderPage} />
-      <Route path="/cake" component={OrderPage} />
-      <Route path="/track" component={TrackPage} />
-    </Switch>
-  </Router>
+
+  <div>
+    <Navbar collapseOnSelect>
+      <Navbar.Header>
+        <Navbar.Brand>
+          <Link to="/home" href="/" className="logo-icon" />
+        </Navbar.Brand>
+        <Navbar.Toggle />
+      </Navbar.Header>
+      <Navbar.Collapse>
+        <Nav pullRight>
+          <RouteNavItem href="/order">ORDER</RouteNavItem>
+          <RouteNavItem href="/cake">CAKE</RouteNavItem>
+          <RouteNavItem href="/track">TRACK</RouteNavItem>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+    <Routes />
+    <Footer />
+  </div>
 );
 
-export default App;
+export default withRouter(App);

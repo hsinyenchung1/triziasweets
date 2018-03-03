@@ -6,8 +6,7 @@ import CakeItemDisplay from '../../containers/CakeItemDisplay';
 const View = ({
   RenderHeaderNav, RenderCakeItemDisplay
 }) => (
-  <div>
-    <RenderHeaderNav />
+  <div className="container">
     <RenderCakeItemDisplay />
   </div>
 );

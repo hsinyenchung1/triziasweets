@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CakeItem from '../../components/CakeItem';
 import { CakeItemDisplay } from './CakeItemDisplay';
 
 const View = ({
-  RenderCakeItemDisplay, CakeItemComponent, cakeItemsImage
+  RenderCakeItemDisplay, cakeItemsImage
 }) => (
   <div>
     <RenderCakeItemDisplay cakeItemsImage={cakeItemsImage} />
@@ -13,13 +12,11 @@ const View = ({
 
 View.propTypes = {
   RenderCakeItemDisplay: PropTypes.func,
-  CakeItemComponent: PropTypes.func,
   cakeItemsImage: PropTypes.array.isRequired
 };
 
 View.defaultProps = {
-  RenderCakeItemDisplay: CakeItemDisplay,
-  CakeItemComponent: CakeItem
+  RenderCakeItemDisplay: CakeItemDisplay
 };
 
 export default View;

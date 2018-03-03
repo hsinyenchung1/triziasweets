@@ -4,10 +4,69 @@
 @import './components/HeaderNav';
 @import './components/CakeItem';
 @import './components/CakeItemDisplay';
+@import './components/Footer';
 
 body{
   margin: 0;
   font-family: 'Oswald', sans-serif;
   font-weight: 400;
   font-size: 20px;
+  margin: 0 0 100px; /* bottom = footer height */
+  padding: 25px;
+}
+
+//Customize Bootstrap Navbar Start
+.navbar-nav > li > a {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  line-height: 100px;
+}
+
+@media (max-width: 767px) {
+  .navbar-nav > li > a {
+  line-height: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;}
+}
+.navbar {
+  position: relative;
+  min-height: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+}
+
+.navbar-default {
+  background-color: white; 
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: $navcolor;
+}
+
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+  color: $navHovcolor;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  color: $navHovcolor;
+  background-color: white; 
+}
+
+.navbar-toggle {
+  position: relative;
+  float: right;
+  padding: 9px 10px;
+  margin-top: 25px;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+html{
+  position: relative;
+  min-height: 100%;
 }

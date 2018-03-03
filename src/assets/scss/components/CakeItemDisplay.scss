@@ -1,7 +1,21 @@
 .cakeItemDisplay-img-item{
-  width: 290px;
-  height: 290px;
-  background-color: red;
-  border: 1px solid black;
-  display: inline-block;
+  background-color: rgb(228, 225, 225);
+}
+
+.cakeItemDisplay-wrapper {
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+  grid-auto-rows: minmax(400px, auto);
+}
+
+.cakeItemDisplay-container {
+  width: auto;
+  width: 1280px;
+  margin: 50px;
+}
+
+.cakeItemDisplay-cake-img-400 {
+  height: 100%;
 }

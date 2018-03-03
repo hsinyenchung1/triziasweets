@@ -1,6 +1,8 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, Routes } from 'react-router-dom';
 import classNames from 'classnames';
+import { Navbar, Nav } from 'react-bootstrap';
+import RouteNavItem from '../RouteNavItem/RouteNavItem';
 
 export class HeaderNav extends React.Component {
   constructor(props) {
@@ -38,42 +40,21 @@ export class HeaderNav extends React.Component {
 
     return (
       <header>
-        <div className="container-nav hide-dt-view">
-          <div alt="logo" className="logo logo-icon" />
-          <nav>
-            <ul>
-              <li><NavLink to="/home">HOME</NavLink></li>
-              <li><NavLink to="/cake">CAKE</NavLink></li>
-              <li><NavLink to="/order">ORDER</NavLink></li>
-              <li><NavLink to="/track">TRACK</NavLink></li>
-            </ul>
-          </nav>
-        </div>
-
-        <div className={backgroundClassName}>
-          <div>
-            <div alt="logo" className="logo logo-icon mrg-16" />
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={this.clickHandler.bind(this)}
-              onKeyPress={this.clickHandler}
-              alt="hamburger"
-              className={hamburgerClassName}
-            />
-          </div>
-          <div className="">
-            <nav className={display}>
-              <ul>
-                <li><NavLink to="/home">HOME</NavLink></li>
-                <li><NavLink to="/cake">CAKE</NavLink></li>
-                <li><NavLink to="/order">ORDER</NavLink></li>
-                <li><NavLink to="/track">TRACK</NavLink></li>
-              </ul>
-            </nav>
-          </div>
-
-        </div>
+        <Navbar collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to="/home" className="logo-icon" />
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          <Navbar.Collapse>
+            <Nav pullRight>
+              <RouteNavItem href="/order">ORDER</RouteNavItem>
+              <RouteNavItem href="/cake">CAKE</RouteNavItem>
+              <RouteNavItem href="/track">TRACK</RouteNavItem>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
       </header>
     );
   }

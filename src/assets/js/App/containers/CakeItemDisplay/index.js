@@ -1,7 +1,6 @@
 import React from 'react';
 import View from './View';
 import axios from 'axios';
-import cakeItems from '../../components/CakeItem';
 
 const loadImage = async function () {
   try {
@@ -19,10 +18,24 @@ export default class extends React.Component {
     this.state = {
       cakeItems: [],
       cakeItemsImage: [
-        'http://lorempixel.com/640/480/city',
-        'http://lorempixel.com/640/480/city',
-        'http://lorempixel.com/640/480/city',
-        'http://lorempixel.com/640/480/city'
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/cake1.jpg',
+        'assets/media/test11.jpg'
       ]
     }
   }
