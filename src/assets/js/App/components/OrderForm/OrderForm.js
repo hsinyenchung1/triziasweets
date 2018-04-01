@@ -107,6 +107,9 @@ export class OrderForm extends React.Component {
           <div className="orderform-main-container">
             <div id="order-container" className="col-12 col-sm-5">
               { !this.state.validationFlag ? <InvalidateMessage /> : null }
+              <div className="alert alert-warning" role="alert">
+              4/17 前單已滿！ | We are fully ordered before 4/17!
+              </div>
               <form onSubmit={this.handleSubmit.bind(this)} encType="multipart/form-data">
                 <div className="form-group">
                   <label htmlFor="emailAddress" className="orderform-input-with-100">
@@ -176,6 +179,7 @@ export class OrderForm extends React.Component {
                       id="pickupDate"
                       aria-describedby="emailHelp"
                       placeholder="Pickup Date"
+                      min="2018-04-17"
                       value={this.state.pickupDate}
                       onChange={this.handleChange.bind(this)}
                     />
