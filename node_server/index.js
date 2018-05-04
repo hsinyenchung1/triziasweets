@@ -27,8 +27,8 @@ if (app.get('env') === 'production') {
 }
 if (app.get('env') === 'development') {
   console.log('============ development env ============');
-  // var mongodb_url = 'mongodb://triziasweets:triziasweets@ds023603.mlab.com:23603/triziasweets';
-  var mongodb_url = 'mongodb://triziasweets:triziasweets@ds129796.mlab.com:29796/productiondb';
+  var mongodb_url = 'mongodb://triziasweets:triziasweets@ds023603.mlab.com:23603/triziasweets';
+  // var mongodb_url = 'mongodb://triziasweets:triziasweets@ds129796.mlab.com:29796/productiondb';
   app.use(morgan('dev'));
 }
 // connect to mongodb

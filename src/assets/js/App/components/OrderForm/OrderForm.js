@@ -292,13 +292,14 @@ export default OrderForm;
 
 function SubmitedMessage() {
   const divStyle = {
-    color: 'green',
+    color: 'rgb(100, 102, 0)',
     margin: '20px',
-    fontSize: '18px'
+    fontSize: '40px'
   };
   return (
     <div style={divStyle}>
-      <span>Your oder is submited - 您已成功下单</span>
+      <div>Your oder is submited</div>
+      <div>您已成功下单</div>
     </div>
   );
 }
