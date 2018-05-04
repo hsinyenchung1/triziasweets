@@ -77,11 +77,10 @@ export class OrderForm extends React.Component {
     const emailAddress = (this.state.emailAddress.length > 0);
     const contactNumber = (this.state.contactNumber.length > 0);
     const name = (this.state.name.length > 0);
-    const weChatID = (this.state.weChatID.length > 0);
     const message = (this.state.message.length > 0);
     const pickupDate = (this.state.pickupDate.length > 0);
 
-    if (emailAddress && contactNumber && name && weChatID && message && pickupDate) {
+    if (emailAddress && contactNumber && name && message && pickupDate) {
       isPass = true;
     } else {
       isPass = false;
