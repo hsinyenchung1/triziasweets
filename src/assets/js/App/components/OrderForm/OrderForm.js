@@ -3,6 +3,12 @@ import React from 'react';
 export class OrderForm extends React.Component {
   constructor(props) {
     super(props);
+    const date = new Date();
+    date.setDate(date.getDate() + 7);
+    const day = (date.getDate()).toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const nextWeekInputDate = `${year}-${month}-${day}`;
     this.state = {
       emailAddress: '',
       contactNumber: '',
@@ -16,11 +22,25 @@ export class OrderForm extends React.Component {
       orders: [],
       image1: { data_uri: '' },
       image2: { data_uri: '' },
-      image3: { data_uri: '' }
+      image3: { data_uri: '' },
+      minPickUpTime: nextWeekInputDate
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFile = this.handleFile.bind(this);
+  }
+
+  componentDidMount() {
+    // const date = new Date();
+    // date.setDate(date.getDate() + 7);
+    // const day = (date.getDate()).toString().padStart(2, '0');
+    // const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    // const year = date.getFullYear();
+    // const nextWeekInputDate = `${year}-${month}-${day}`;
+    // console.log(nextWeekInputDate);
+    // this.setState({
+    //   test: nextWeekInputDate
+    // });
   }
 
   handleChange(event) {
@@ -52,20 +72,26 @@ export class OrderForm extends React.Component {
   }
 
   handleSubmit(event) {
-    const currentOrder = this.state;
-    let isFormValidate = true;
+    let isPass = true;
 
-    Object.keys(currentOrder).forEach((key, index) => {
-      if (currentOrder[key] === null || currentOrder[key] === undefined || currentOrder[key] === '') {
-        isFormValidate = false;
-      }
-    });
+    const emailAddress = (this.state.emailAddress.length > 0);
+    const contactNumber = (this.state.contactNumber.length > 0);
+    const name = (this.state.name.length > 0);
+    const weChatID = (this.state.weChatID.length > 0);
+    const message = (this.state.message.length > 0);
+    const pickupDate = (this.state.pickupDate.length > 0);
+
+    if (emailAddress && contactNumber && name && weChatID && message && pickupDate) {
+      isPass = true;
+    } else {
+      isPass = false;
+    }
 
     this.setState({
-      validationFlag: isFormValidate
+      validationFlag: isPass
     });
 
-    if (isFormValidate) {
+    if (isPass) {
       fetch('/api/order', {
         headers: {
           Accept: 'application/json',
@@ -106,11 +132,11 @@ export class OrderForm extends React.Component {
         <div className="row">
           <div className="orderform-main-container">
             <div id="order-container" className="col-12 col-sm-5">
-              { !this.state.validationFlag ? <InvalidateMessage /> : null }
+              {!this.state.validationFlag ? <InvalidateMessage /> : null}
               <form onSubmit={this.handleSubmit.bind(this)} encType="multipart/form-data">
                 <div className="form-group">
                   <label htmlFor="emailAddress" className="orderform-input-with-100">
-                Email Address - 电子邮箱 *
+                    Email Address - 电子邮箱 *
                     <input
                       type="text"
                       className="form-control"
@@ -125,7 +151,7 @@ export class OrderForm extends React.Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="contactNumber" className="orderform-input-with-100">
-                Contact Number - 联系电话 *
+                    Contact Number - 联系电话 *
                     <input
                       type="text"
                       className="form-control"
@@ -168,7 +194,7 @@ export class OrderForm extends React.Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="pickupDate" className="orderform-input-with-100">
-                Pick Up Date - 取货日期 *
+                    Pick Up Date - 取货日期 *
                     <input
                       type="date"
                       className="form-control"
@@ -176,7 +202,7 @@ export class OrderForm extends React.Component {
                       id="pickupDate"
                       aria-describedby="emailHelp"
                       placeholder="Pickup Date"
-                      min="2018-04-27"
+                      min={this.state.minPickUpTime}
                       value={this.state.pickupDate}
                       onChange={this.handleChange.bind(this)}
                     />
@@ -184,7 +210,7 @@ export class OrderForm extends React.Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="pickupTime" className="orderform-input-with-100">
-                Pick Up Time - 取货时间 *
+                    Pick Up Time - 取货时间
                     <input
                       type="time"
                       className="form-control"
@@ -199,7 +225,7 @@ export class OrderForm extends React.Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="message" className="orderform-input-with-100">
-                Your Orders - 请在此处填写您要订购的甜品 *
+                    Your Orders - 请在此处填写您要订购的甜品 *
                     <textarea
                       className="form-control"
                       name="message"
@@ -247,8 +273,8 @@ export class OrderForm extends React.Component {
                 </div>
                 <button style={submitButton} type="submit" className="btn btn-primary">Submit</button>
               </form>
-              { !this.state.validationFlag ? <InvalidateMessage /> : null }
-              { this.state.submitedFlag ? <SubmitedMessage /> : null}
+              {!this.state.validationFlag ? <InvalidateMessage /> : null}
+              {this.state.submitedFlag ? <SubmitedMessage /> : null}
             </div>
             <div className="col-12 col-sm-7">
               <div className="order-menu-img-wapper">

@@ -1,71 +1,71 @@
 const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 // create geolocation schema
 const GeoSchema = new Schema({
-	type: {
-		type :String, 
-		default:"Point"
-	},
-	coordinates:{
-		type: [Number],
-		index: "2dsphere"
-	}
+  type: {
+    type: String,
+    default: 'Point'
+  },
+  coordinates: {
+    type: [Number],
+    index: '2dsphere'
+  }
 });
 // create oder Schema & model
 const OrderSchema = new Schema({
 
-	name:{
-		type: String,
-		required: [true, 'Name field is required']
-	},
-	contactNumber:{
-		type: String,
-		required: [true, 'Contact number field is required']
-	},
-	emailAddress:{
-		type: String,
-		required: [true, 'Email address field is required']
-	},
-	weChatID:{
-		type: String
-	},
-	message:{
-		type: String,
-		required: [true, 'Message field is required']
-	},
-	orderDate:{
-		type: Date,
-		required: [true, 'orderDate field is required']
-	}, 
-	pickupDate:{
-		type: String,
-		required: [true, 'pickupDate field is required']
-	}, 
-	pickupTime:{
-		type: String,
-		required: [true, 'pickupTime field is required']
-	}, 
-	image1:{
-		data_uri: {type: String},
-        filename: {type: String},
-        filetype: {type: String}
-	}, 
-	image2:{
-		data_uri: {type: String},
-        filename: {type: String},
-        filetype: {type: String}
-	}, 
-	image3:{
-		data_uri: {type: String},
-        filename: {type: String},
-        filetype: {type: String}
-	},
-	comfirm:{
-		type: Boolean, 
-		default: false
-	}
+  name: {
+    type: String,
+    required: [true, 'Name field is required']
+  },
+  contactNumber: {
+    type: String,
+    required: [true, 'Contact number field is required']
+  },
+  emailAddress: {
+    type: String,
+    required: [true, 'Email address field is required']
+  },
+  weChatID: {
+    type: String
+  },
+  message: {
+    type: String,
+    required: [true, 'Message field is required']
+  },
+  orderDate: {
+    type: Date,
+    required: [true, 'orderDate field is required']
+  },
+  pickupDate: {
+    type: String,
+    required: [true, 'pickupDate field is required']
+  },
+  pickupTime: {
+    type: String
+  },
+  image1: {
+    data_uri: { type: String },
+    filename: { type: String },
+    filetype: { type: String }
+  },
+  image2: {
+    data_uri: { type: String },
+    filename: { type: String },
+    filetype: { type: String }
+  },
+  image3: {
+    data_uri: { type: String },
+    filename: { type: String },
+    filetype: { type: String }
+  },
+  comfirm: {
+    type: Boolean,
+    default: false
+  }
 
-	// add in geo location
+  // add in geo location
 
 });
 
