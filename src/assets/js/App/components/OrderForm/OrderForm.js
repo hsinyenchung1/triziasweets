@@ -235,7 +235,7 @@ export class OrderForm extends React.Component {
                     />
                   </label>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="image1" className="orderform-input-with-100">Up Load Image - 上传图片
                     <input
                       type="file"
@@ -269,7 +269,7 @@ export class OrderForm extends React.Component {
                     onChange={this.handleFile.bind(this)}
                     accept="image/x-png,image/gif,image/jpeg"
                   />
-                </div>
+                </div> */}
                 <button style={submitButton} type="submit" className="btn btn-primary">Submit</button>
               </form>
               {!this.state.validationFlag ? <InvalidateMessage /> : null}
