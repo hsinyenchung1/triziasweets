@@ -18,9 +18,9 @@ export const App = () => (
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav pullRight>
-          <RouteNavItem href="/order">ORDER</RouteNavItem>
-          <RouteNavItem href="/cake">CAKE</RouteNavItem>
-          <RouteNavItem href="/track">TRACK</RouteNavItem>
+          <RouteNavItem href="/order">Order</RouteNavItem>
+          <RouteNavItem href="/gallery">Gallery</RouteNavItem>
+          <RouteNavItem href="/track">Track</RouteNavItem>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
