@@ -4,7 +4,7 @@ export class OrderForm extends React.Component {
   constructor(props) {
     super(props);
     const date = new Date();
-    date.setDate(date.getDate() + 7);
+    date.setDate(date.getDate() + 14);
     const day = (date.getDate()).toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
